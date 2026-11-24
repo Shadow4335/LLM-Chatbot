@@ -19,3 +19,11 @@ export function friendlyError(err: unknown, providerLabel = "Provider"): string 
 }
 
 const truncate = (s: string) => (s.length > 200 ? s.slice(0, 200) + "…" : s);
+
+/** HTTP status to return for a provider error that happened before any output. */
+export function errorStatus(err: unknown): number {
+  let e: unknown = err;
+  if (RetryError.isInstance(e)) e = e.lastError;
+  if (APICallError.isInstance(e) && e.statusCode && e.statusCode >= 400 && e.statusCode < 600) return e.statusCode;
+  return 502;
+}

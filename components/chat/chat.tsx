@@ -66,7 +66,10 @@ export function Chat({ id, initialMessages = [], initialModel, initialSystemProm
     messages: initialMessages,
     transport: chatTransport,
     generateId: () => crypto.randomUUID(),
-    onError: (e) => toast.error(e.message || "Request failed"),
+    onError: (e) => {
+      const network = /load failed|failed to fetch|networkerror|network error/i.test(e.message);
+      toast.error(network ? "Connection lost. Check your network and try again." : e.message || "Request failed");
+    },
     onFinish: () => {
       void refreshConversations();
       // Title is generated in the background; pick it up shortly after.

@@ -3,7 +3,7 @@ import { convertToModelMessages, generateText, streamText } from "ai";
 import { and, eq, notInArray, sql } from "drizzle-orm";
 import { z } from "zod";
 import { conversations, db, messages as messagesTable } from "@/lib/db";
-import { friendlyError } from "@/lib/errors";
+import { errorStatus, friendlyError } from "@/lib/errors";
 import { cheapestModelKey, getModel, ModelError, providerLabelFor } from "@/lib/providers";
 import { messageText, type ChatMessage } from "@/lib/chat-types";
 
@@ -126,6 +126,23 @@ export async function POST(req: Request) {
   // Run to completion even if the client disconnects; keep the function alive until saved.
   result.consumeStream({ onError: () => saved() });
   after(() => savedPromise);
+
+  // Wait until the provider either produces output or fails. Failing before any output
+  // (bad key, quota, unknown model) returns a plain HTTP error instead of an error part
+  // mid-stream, which some browsers (Safari) surface only as "Load failed".
+  const reader = result.fullStream.getReader();
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value.type === "error") {
+        return err(errorStatus(value.error), friendlyError(value.error, providerLabel));
+      }
+      if (value.type === "text-delta" || value.type === "reasoning-delta" || value.type === "finish-step") break;
+    }
+  } finally {
+    void reader.cancel().catch(() => {});
+  }
 
   return result.toUIMessageStreamResponse<ChatMessage>({
     generateMessageId: () => assistantId,
