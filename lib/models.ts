@@ -54,12 +54,11 @@ export const PROVIDERS: ProviderDef[] = [
     provider: "groq",
     label: "Groq",
     envVar: "GROQ_API_KEY",
-    cheapest: "llama-3.1-8b-instant",
+    cheapest: "openai/gpt-oss-20b",
     models: [
       { id: "openai/gpt-oss-120b", label: "GPT-OSS 120B", vision: false },
-      { id: "moonshotai/kimi-k2-instruct-0905", label: "Kimi K2", vision: false },
-      { id: "llama-3.3-70b-versatile", label: "Llama 3.3 70B", vision: false },
-      { id: "llama-3.1-8b-instant", label: "Llama 3.1 8B", vision: false },
+      { id: "openai/gpt-oss-20b", label: "GPT-OSS 20B", vision: false },
+      { id: "qwen/qwen3.8-27b", label: "Qwen3.8 27B", vision: false },
     ],
   },
   {
