@@ -1,6 +1,6 @@
-# Chat
+# Artemis
 
-Personal ChatGPT-style chatbot. Next.js (App Router) · Tailwind · shadcn/ui · Vercel AI SDK · Drizzle + Neon Postgres.
+Artemis is a personal ChatGPT-style chatbot. Next.js (App Router) · Tailwind · shadcn/ui · Vercel AI SDK · Drizzle + Neon Postgres.
 
 Providers: OpenAI, Anthropic, Google (optional: Groq, OpenRouter). Only models whose API key is set appear in the picker. Edit models in `lib/models.ts`.
 

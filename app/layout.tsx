@@ -7,8 +7,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Chat",
-  description: "Personal chatbot",
+  title: "Artemis",
+  description: "Artemis — personal AI chat",
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 

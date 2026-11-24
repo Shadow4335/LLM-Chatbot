@@ -102,9 +102,12 @@ export function Sidebar() {
         aria-hidden={!sidebarOpen}
       >
         <div className="flex h-14 items-center justify-between px-2">
-          <Button variant="ghost" size="icon-lg" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
-            <PanelLeftClose className="size-5" />
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button variant="ghost" size="icon-lg" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
+              <PanelLeftClose className="size-5" />
+            </Button>
+            <span className="text-base font-semibold">Artemis</span>
+          </div>
           <Button variant="ghost" size="icon-lg" onClick={newChat} aria-label="New chat">
             <SquarePen className="size-5" />
           </Button>
